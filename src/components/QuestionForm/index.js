@@ -18,7 +18,6 @@ import {
 
 export class QuestionForm extends Component {
   handleSubmit = data => {
-    console.tron.log(data)
     this.props.addAnswers(data)
   }
   render() {
