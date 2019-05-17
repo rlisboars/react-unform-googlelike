@@ -25,16 +25,22 @@ class Header extends Component {
         </HeaderContainer>
         <Tab>
           <TabButton
-            active={!this.props.isAnswering}
-            onClick={() => this.props.setAnswering(false)}
+            active={this.props.activeTab === 0}
+            onClick={() => this.props.setAnswering(0)}
           >
             PERGUNTAS
           </TabButton>
           <TabButton
-            active={this.props.isAnswering}
-            onClick={() => this.props.setAnswering(true)}
+            active={this.props.activeTab === 1}
+            onClick={() => this.props.setAnswering(1)}
           >
             RESPONDER
+          </TabButton>
+          <TabButton
+            active={this.props.activeTab === 2}
+            onClick={() => this.props.setAnswering(2)}
+          >
+            RESPOSTAS
           </TabButton>
         </Tab>
       </Container>
@@ -43,7 +49,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ questions }) => ({
-  isAnswering: questions.isAnswering,
+  activeTab: questions.activeTab,
   formTitle: questions.formTitle
 })
 

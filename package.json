@@ -1,6 +1,7 @@
 {
-  "name": "react-unform",
+  "name": "react-unform-googlelike",
   "version": "0.1.0",
+  "homepage": "https://rlisboars.github.io/react-unform-googlelike",
   "private": true,
   "dependencies": {
     "@rocketseat/unform": "^1.0.1",
@@ -17,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +46,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-standard": "^4.0.0",
+    "gh-pages": "^2.0.1",
     "reactotron-react-js": "^3.2.0",
     "reactotron-redux": "^3.1.0"
   }

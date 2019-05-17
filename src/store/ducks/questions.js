@@ -11,21 +11,64 @@ export const Types = {
   COPY_QUESTION: 'questions/COPY_QUESTION',
   SET_ACTIVE: 'questions/SET_ACTIVE',
   SET_INACTIVE: 'questions/SET_INACTIVE',
-  ADD_ANSWERS: 'questions/ADD_ANSWERS'
+  ADD_ANSWERS: 'questions/ADD_ANSWERS',
+  CHANGE_TAB: 'questions/CHANGE_TAB'
 }
 
 // REDUCERS
 
 const INITIAL_STATE = {
-  isAnswering: true,
-  formTitle: 'Formulário sem Título',
-  formDescription: '',
+  activeTab: 0,
+  formTitle: 'Título do formulário de exemplo',
+  formDescription:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fermentum libero quis eros congue, eu egestas diam tincidunt. Vivamus maximus pharetra porta. Nunc a purus sollicitudin, vehicula nunc commodo, hendrerit odio. In hac habitasse platea dictumst. Phasellus sollicitudin placerat neque, eu mollis felis sodales ac.',
   questions: [
     {
       id: uuidv4(),
       type: 'short',
-      question: '',
+      question: 'Pergunta com resposta curta',
+      active: true,
       options: [{ id: uuidv4(), option: 'Opção 1' }],
+      answers: []
+    },
+    {
+      id: uuidv4(),
+      type: 'long',
+      question: 'Pergunta com resposta longa',
+      options: [{ id: uuidv4(), option: 'Opção 1' }],
+      answers: []
+    },
+    {
+      id: uuidv4(),
+      type: 'radio',
+      question: 'Pergunta com opção única',
+      options: [
+        { id: uuidv4(), option: 'Opção 1' },
+        { id: uuidv4(), option: 'Opção 2' }
+      ],
+      answers: []
+    },
+    {
+      id: uuidv4(),
+      type: 'check',
+      question: 'Pergunta com opção múltipla',
+      options: [
+        { id: uuidv4(), option: 'Opção 1' },
+        { id: uuidv4(), option: 'Opção 2' },
+        { id: uuidv4(), option: 'Opção 3' },
+        { id: uuidv4(), option: 'Opção 4' }
+      ],
+      answers: []
+    },
+    {
+      id: uuidv4(),
+      type: 'list',
+      question: 'Pergunta com seleção em lista',
+      options: [
+        { id: uuidv4(), option: 'Opção A' },
+        { id: uuidv4(), option: 'Opção B' },
+        { id: uuidv4(), option: 'Opção C' }
+      ],
       answers: []
     }
   ]
@@ -52,7 +95,7 @@ export default function questions (state = INITIAL_STATE, action) {
       return {
         ...state,
         questions: newQuestions,
-        isAnswering: action.isAnswering
+        activeTab: action.activeTab
       }
     }
     case Types.ADD_QUESTION: {
@@ -89,7 +132,8 @@ export default function questions (state = INITIAL_STATE, action) {
       newQuestions.splice(copiedIndex + 1, 0, {
         ...newQuestions[copiedIndex],
         id: uuidv4(),
-        active: true
+        active: true,
+        answers: []
       })
       return { ...state, questions: newQuestions }
     }
@@ -121,14 +165,15 @@ export default function questions (state = INITIAL_STATE, action) {
       return { ...state, questions: newQuestions }
     }
     case Types.ADD_ANSWERS: {
-      console.tron.log('aqui1: ', answers)
       const { answers } = action
       Object.keys(answers).map(answerKey => {
         const questionIdx = newQuestions.findIndex(q => q.id === answerKey)
-        newQuestions[questionIdx].asnwers.push(answers[answerKey])
+        return newQuestions[questionIdx].answers.push(answers[answerKey])
       })
-      console.tron.log('aqui2: ', answers)
-      return { ...state, questions: newQuestions }
+      return { ...state, activeTab: 2, questions: newQuestions }
+    }
+    case Types.CHANGE_TAB: {
+      return { ...state, activeTab: action.activeTab }
     }
     default:
       return state
@@ -146,9 +191,9 @@ export const Creators = {
     type: Types.CHANGE_DESCRIPTION,
     description: description
   }),
-  setAnswering: isAnswering => ({
+  setAnswering: activeTab => ({
     type: Types.SET_ANSWERING,
-    isAnswering: isAnswering
+    activeTab: activeTab
   }),
   addQuestion: (question, createAfterId) => ({
     type: Types.ADD_QUESTION,
@@ -178,5 +223,9 @@ export const Creators = {
   addAnswers: answers => ({
     type: Types.ADD_ANSWERS,
     answers: answers
+  }),
+  changeTab: newActiveTabId => ({
+    type: Types.CHANGE_TAB,
+    activeTab: newActiveTabId
   })
 }

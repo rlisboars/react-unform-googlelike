@@ -8,16 +8,17 @@ import Header from './components/Header'
 import Question from './components/Question'
 import Title from './components/Title'
 import QuestionForm from './components/QuestionForm'
+import Answers from './components/Answers'
 
 class App extends Component {
   render () {
-    const { questions, isAnswering } = this.props
+    const { questions, activeTab } = this.props
     return (
       <Fragment>
         <GlobalStyle />
         <Header />
         <Content>
-          {!isAnswering && (
+          {activeTab === 0 && (
             <Fragment>
               <Title />
               {questions.map(question => (
@@ -25,7 +26,8 @@ class App extends Component {
               ))}
             </Fragment>
           )}
-          {isAnswering && <QuestionForm />}
+          {activeTab === 1 && <QuestionForm />}
+          {activeTab === 2 && <Answers />}
         </Content>
       </Fragment>
     )
@@ -33,7 +35,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAnswering: state.questions.isAnswering,
+  activeTab: state.questions.activeTab,
   questions: state.questions.questions
 })
 

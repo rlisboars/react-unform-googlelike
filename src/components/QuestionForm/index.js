@@ -18,6 +18,7 @@ import {
 
 export class QuestionForm extends Component {
   handleSubmit = data => {
+    console.tron.log(data)
     this.props.addAnswers(data)
   }
   render() {
@@ -98,7 +99,9 @@ export class QuestionForm extends Component {
             }
           })}
           <ActionContainer>
-            <ActionButton>VOLTAR</ActionButton>
+            <ActionButton type="button" onClick={() => this.props.changeTab(0)}>
+              VOLTAR
+            </ActionButton>
             <ActionButton type="submit" primary>
               ENVIAR
             </ActionButton>
@@ -112,7 +115,13 @@ export class QuestionForm extends Component {
 const mapStateToProps = ({ questions }) => questions
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ addAnswers: QuestionActions.addAnswers }, dispatch)
+  bindActionCreators(
+    {
+      addAnswers: QuestionActions.addAnswers,
+      changeTab: QuestionActions.changeTab
+    },
+    dispatch
+  )
 
 export default connect(
   mapStateToProps,
